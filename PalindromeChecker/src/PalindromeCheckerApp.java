@@ -1,25 +1,26 @@
 public class PalindromeCheckerApp {
 
-    public static boolean isPalindrome(String input, int start, int end) {
-        if (start >= end) {
-            return true;
-        }
-
-        if (input.charAt(start) != input.charAt(end)) {
-            return false;
-        }
-
-        return isPalindrome(input, start + 1, end - 1);
-    }
-
     public static void main(String[] args) {
 
-        String input = "madam";
+        String input = "Madam In Eden Im Adam";
 
-        boolean result = isPalindrome(input, 0, input.length() - 1);
+        String normalized = input.replaceAll("\\s+", "").toLowerCase();
 
-        if (result) {
-            System.out.println(input + " is a Palindrome.");
+        int start = 0;
+        int end = normalized.length() - 1;
+        boolean isPalindrome = true;
+
+        while (start < end) {
+            if (normalized.charAt(start) != normalized.charAt(end)) {
+                isPalindrome = false;
+                break;
+            }
+            start++;
+            end--;
+        }
+
+        if (isPalindrome) {
+            System.out.println(input + " is a Palindrome (Ignoring case and spaces).");
         } else {
             System.out.println(input + " is NOT a Palindrome.");
         }
