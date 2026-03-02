@@ -2,13 +2,25 @@ import java.util.Stack;
 import java.util.Deque;
 import java.util.LinkedList;
 
-interface PalindromeStrategy {
-    boolean check(String input);
-}
+public class UseCase13PalindromeCheckerApp {
 
-class StackStrategy implements PalindromeStrategy {
+    public static boolean twoPointerCheck(String input) {
 
-    public boolean check(String input) {
+        int start = 0;
+        int end = input.length() - 1;
+
+        while (start < end) {
+            if (input.charAt(start) != input.charAt(end)) {
+                return false;
+            }
+            start++;
+            end--;
+        }
+
+        return true;
+    }
+
+    public static boolean stackCheck(String input) {
 
         Stack<Character> stack = new Stack<>();
 
@@ -24,11 +36,8 @@ class StackStrategy implements PalindromeStrategy {
 
         return true;
     }
-}
 
-class DequeStrategy implements PalindromeStrategy {
-
-    public boolean check(String input) {
+    public static boolean dequeCheck(String input) {
 
         Deque<Character> deque = new LinkedList<>();
 
@@ -44,36 +53,27 @@ class DequeStrategy implements PalindromeStrategy {
 
         return true;
     }
-}
-
-class PalindromeService {
-
-    private PalindromeStrategy strategy;
-
-    public PalindromeService(PalindromeStrategy strategy) {
-        this.strategy = strategy;
-    }
-
-    public boolean execute(String input) {
-        return strategy.check(input);
-    }
-}
-
-public class UseCase12PalindromeCheckerApp {
 
     public static void main(String[] args) {
 
         String input = "madam";
 
-        PalindromeStrategy strategy = new StackStrategy();
-        PalindromeService service = new PalindromeService(strategy);
+        long startTime;
+        long endTime;
 
-        boolean result = service.execute(input);
+        startTime = System.nanoTime();
+        twoPointerCheck(input);
+        endTime = System.nanoTime();
+        System.out.println("Two Pointer Time: " + (endTime - startTime) + " ns");
 
-        if (result) {
-            System.out.println(input + " is a Palindrome.");
-        } else {
-            System.out.println(input + " is NOT a Palindrome.");
-        }
+        startTime = System.nanoTime();
+        stackCheck(input);
+        endTime = System.nanoTime();
+        System.out.println("Stack Time: " + (endTime - startTime) + " ns");
+
+        startTime = System.nanoTime();
+        dequeCheck(input);
+        endTime = System.nanoTime();
+        System.out.println("Deque Time: " + (endTime - startTime) + " ns");
     }
 }
